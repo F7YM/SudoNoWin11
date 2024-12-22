@@ -15,9 +15,9 @@ int main(int argc, char *argv[]){
         	strcat(argvStr, argv[i]);
 		}
     	#ifdef __x86_64__
-        	snprintf(command, sizeof(command), "Nsudo64.exe -U:T %s", argvStr);
-    	#elif __i386__    
-        	snprintf(command, sizeof(command), "Nsudo32.exe -U:T %s", argvStr);
+        	snprintf(command, sizeof(command), "Nsudo64.exe -U:T cmd /C %s", argvStr);
+    	#elif __i386__
+        	snprintf(command, sizeof(command), "Nsudo32.exe -U:T cmd /C %s", argvStr);
     	#endif
 		system(command);
 	}
