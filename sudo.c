@@ -6,7 +6,7 @@
 int main(int argc, char *argv[]){
 	char argvStr[100000] = "";
 
-	if (strcmp(argv[1], "-t") == 0){
+	if (strcmp(argv[1], "-t") == 0){ //-t
 		char command[100000];
 		for (int i = 2; i < argc; i++){
 			if (i > 2) {
@@ -18,6 +18,38 @@ int main(int argc, char *argv[]){
         	snprintf(command, sizeof(command), "Nsudo64.exe -U:T cmd /C %s", argvStr);
     	#elif __i386__
         	snprintf(command, sizeof(command), "Nsudo32.exe -U:T cmd /C %s", argvStr);
+    	#endif
+		system(command);
+	}
+	
+	else if (strcmp(argv[1], "-p") == 0){ //-p
+		char command[100000];
+		for (int i = 2; i < argc; i++){
+			if (i > 2) {
+            	strcat(argvStr, " ");
+        	}
+        	strcat(argvStr, argv[i]);
+		}
+    	#ifdef __x86_64__
+        	snprintf(command, sizeof(command), "powershell %s", argvStr);
+    	#elif __i386__
+        	snprintf(command, sizeof(command), "powershell %s", argvStr);
+    	#endif
+		system(command);
+	}
+	
+	else if (strcmp(argv[1], "-pt") == 0){ //-pt
+		char command[100000];
+		for (int i = 2; i < argc; i++){
+			if (i > 2) {
+            	strcat(argvStr, " ");
+        	}
+        	strcat(argvStr, argv[i]);
+		}
+    	#ifdef __x86_64__
+        	snprintf(command, sizeof(command), "Nsudo32.exe -U:T powershell %s", argvStr);
+    	#elif __i386__
+        	snprintf(command, sizeof(command), "Nsudo32.exe -U:T powershell %s", argvStr);
     	#endif
 		system(command);
 	}
@@ -42,6 +74,5 @@ int main(int argc, char *argv[]){
         	return 1;
     	}
 	}
-
 	return 0;
 }
