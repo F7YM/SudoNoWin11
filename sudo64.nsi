@@ -15,7 +15,7 @@ Section "MainSection" SEC01
     SetOutPath $INSTDIR
     
     File "sudo.c"
-    File "sudo64.exe"
+    File "sudo.exe"
     File "NSudo64.exe"
 
     ReadRegStr $0 HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment" "PATH"
