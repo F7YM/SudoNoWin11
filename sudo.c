@@ -5,7 +5,6 @@
 
 int main(int argc, char *argv[]){
 	char argvStr[100000] = "";
-
 	if (strcmp(argv[1], "-t") == 0){ //-t
 		char command[100000];
 		for (int i = 2; i < argc; i++){
@@ -21,7 +20,6 @@ int main(int argc, char *argv[]){
     	#endif
 		system(command);
 	}
-	
 	else if (strcmp(argv[1], "-p") == 0){ //-p
 		char command[100000];
 		for (int i = 2; i < argc; i++){
@@ -30,14 +28,20 @@ int main(int argc, char *argv[]){
         	}
         	strcat(argvStr, argv[i]);
 		}
-    	#ifdef __x86_64__
-        	snprintf(command, sizeof(command), "powershell %s", argvStr);
-    	#elif __i386__
-        	snprintf(command, sizeof(command), "powershell %s", argvStr);
-    	#endif
-		system(command);
+		SHELLEXECUTEINFO sei = {0};
+    	sei.cbSize = sizeof(SHELLEXECUTEINFO);
+    	sei.lpVerb = "runas";
+    	sei.lpFile = "powershell.exe";
+    	char parameters[100000];
+    	snprintf(parameters, sizeof(parameters), "%s", argvStr);
+    	sei.lpParameters = parameters;
+    	sei.nShow = SW_SHOWNORMAL;
+    	if (!ShellExecuteEx(&sei)) {
+        	DWORD error = GetLastError();
+        	fprintf(stderr, "ShellExecuteEx failed with error: %lu\n", error);
+        	return 1;
+    	}
 	}
-	
 	else if (strcmp(argv[1], "-pt") == 0){ //-pt
 		char command[100000];
 		for (int i = 2; i < argc; i++){
